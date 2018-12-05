@@ -13,7 +13,7 @@ if (!$result) {
   exit;
 }
 print "<h2>INSERT,DELETE E UPDATE</h2>";
-$insert = pg_query($dbcon, "INSERT INTO eventos (nome,local, data) VALUES (Peras, st_makepoint(-50.337571,-27.805085), '2018-03-25')");
+$insert = pg_query($dbcon, "INSERT INTO eventos (nome,atividade, local, data_evento) VALUES ('Peras','Truco', st_makepoint(-50.337571,-27.805085), '2018-03-25')");
 while ($row = pg_fetch_row($result)) {
   echo "Nome $row[0]  Atividade: $row[1] Local: $row[2]";
   echo "<br />\n";
