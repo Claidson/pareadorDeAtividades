@@ -1,0 +1,5 @@
+Este sistema requer PHP 5, com a extensão MySQLi habilitada.
+
+No init.php, edite as linhas 45 a 48, definindo as informações para conexão com o servidor do banco de dados.
+
+Execute o install.php, que criará as tabelas e inserirá os registros. Certifique-se de que não existem outars tabelas chamadas "cidades" e "estados".
