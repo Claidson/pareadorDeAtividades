@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -202,18 +202,41 @@
               </div>
               <div id="layers" class="panel-collapse collapse in">
                 <div class="panel-body list-group">
-                  <a href="#" class="list-group-item">
-                    <i class="fa fa-globe"></i> Tomar cerveja
-                  </a>
-                  <a href="#" class="list-group-item">
-                    <i class="fa fa-globe"></i> Cartear um truco
-                  </a>
-                  <a href="#" class="list-group-item">  
-                    <i class="fa fa-globe"></i> Peleia de futebol
-                  </a>
-                  <a href="#" class="list-group-item">
-                    <i class="fa fa-globe"></i> Duelo mortal
-                  </a>
+                  
+                    <form class="form-horizontal" method="POST" action="cadastrar.php">
+                        <div class="form-group">
+                          
+                            <div class="container-fluid">
+                            <div class="input-group mb-3">
+                          <input class="form-control" type="text" name="atividade"  placeholder="Escolha sua atividade" readonly>
+                          <input class="form-control" type="text" name="nome" placeholder="Nome">
+                          <input class="form-control" type="text" name="local" placeholder="Local">
+                          <input class="form-control" type="datetime" name="data_evento" placeholder="Data">
+                          <label class="radio-inline"> 
+                            <input type="radio" name="atividade" value="Truco"><span class="label label-success">Truco</span> 
+                          </label> 
+                            
+                          <label class="radio-inline"> 
+                            <input type="radio" name="atividade" value="Cerveja"><span class="label label-warning">Cerveja</span> 
+                          </label> 
+                          
+                          <label class="radio-inline"> 
+                            <input type="radio" name="atividade" value="Duelo Mortal"><span class="label label-danger">Duelo Mortal</span> 
+                          </label> 
+                        </div>
+</div>
+
+
+
+                        </div>
+                        <div class="form-group">
+                          <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-danger">Buscar matchs</button>
+                          </div>
+                        </div>
+                      </form>
+
+
                 </div>
               </div>
             </div>
@@ -228,6 +251,14 @@
               </div>
               <div id="properties" class="panel-collapse collapse in">
                 <div class="panel-body">
+                <!--************************************ -->
+               
+
+
+
+
+<!-- -->
+
                   <p>
                   Lorem ipsum dolor sit amet, vel an wisi propriae. Sea ut graece gloriatur. Per ei quando dicant vivendum. An insolens appellantur eos, doctus convenire vis et, at solet aeterno intellegebat qui.
                   </p>
