@@ -16,7 +16,12 @@
     $insert = pg_query($dbcon, $query);
     
 //voltar
-    $var = "<script>javascript:history.back(-2)</script>";
-     echo $var;
+  //  $var = "<script>javascript:history.back(-2)</script>";
+ //    echo $var;
 
 ?>
+<?php 
+header('Location: resultado.php'); 
+?>
+
+
