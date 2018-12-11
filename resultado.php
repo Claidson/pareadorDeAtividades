@@ -245,19 +245,13 @@
                 <h4 class="panel-title">
                   <a data-toggle="collapse" href="#properties">
                     <i class="fa fa-list-alt"></i>
-                    Descrição
+                    Resultados
                   </a>
                 </h4>
               </div>
               <div id="properties" class="panel-collapse collapse in">
                 <div class="panel-body">
-                <!--************************************ -->
-               
 
-
-
-
-<!-- -->
 
                  <?php
 
@@ -282,12 +276,36 @@ if (!$result) {
     <li class="list-group-item">
     
 <?php
-while ($row = pg_fetch_row($result)) {
-   
-  echo "Nome $row[0]  Atividade: $row[1] Local: $row[2]";
-  echo "<br />\n";
+$amiguinhos = array();
+while ($row = pg_fetch_array($result)) {
+  // echo "Nome $row[0]  Atividade: $row[1] ";
+  // echo "<br />\n";
+  // $amiguinhos[] =  $row;
+  $dadosRet[] = array("nome"=> $row['nome'],
+  "atividade"=> $row['atividade'],
+  "local"=> $row['local'],);
 }
-?></li>
+
+?>
+
+<table border='1px'>
+                    <tr>
+                        <td>Nome</td>
+                        <td>Evento</td>
+                        <td>Geo</td>
+                    </tr>
+                    
+                    <?php foreach ($array as $key) { ?>
+                    <tr>
+                        <td><?=$key['nome']?></td>
+                        <td><?=$key['atividade']?></td>
+                        <td><?=$key['local']?></td>
+                    </tr>
+                    <?php } ?>                      
+                </table>
+
+
+</li>
 </ul></div>
                 </div>
               </div>
