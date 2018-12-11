@@ -6,7 +6,7 @@
     $data_evento = $_POST['data_evento'];
     $coordenada = "-50.337571,-27.805085";
     //Criar a conexao
-    
+    $where =  $atividade;
     $bdcon = pg_connect("dbname=pareador");
 //conecta a um banco de dados chamado "pareador"
 
@@ -19,9 +19,8 @@
   //  $var = "<script>javascript:history.back(-2)</script>";
  //    echo $var;
 
-?>
-<?php 
-header('Location: resultado.php'); 
+
+header('Location: resultado.php?atividade='.$where); 
 ?>
 
 

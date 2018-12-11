@@ -68,8 +68,8 @@ $bdcon = pg_connect("dbname=pareador");
 $con_string = "host=localhost port=5432 dbname=pareador user=postgres password=postgres";
 if(!$dbcon = pg_connect($con_string)) die ("Erro ao conectar ao banco<br>".pg_last_error($dbcon));
 //coneta a um banco de dados chamado "cliente" na máquina "localhost" com um usuário e senha
-
-$result = pg_query($dbcon, "SELECT * FROM eventos");
+$recebido = $_GET['atividade']; //pega a variavel por get  na url header
+$result = pg_query($dbcon, "SELECT * FROM eventos WHERE atividade = '$recebido'");
 
 if (!$result) {
   echo "Erro na consulta.<br>";
@@ -168,7 +168,7 @@ if (!$result) {
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Mapa </a>
+            <a class="navbar-brand" href="index.html">Home </a>
           </div>
           <!-- menu drop  -->
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -290,7 +290,9 @@ if (!$result) {
     <li class="list-group-item">
     
 <?php
-//$amiguinhos = array();
+
+  
+
 while ($row = pg_fetch_row($result)) {
   // echo "Nome $row[0]  Atividade: $row[1] ";
   // echo "<br />\n";
@@ -298,8 +300,9 @@ while ($row = pg_fetch_row($result)) {
   $dadosRet[] = ["nome"=> $row[0],
   "atividade"=> $row[1],
   "local"=> $row[2]];
- 
+
 }
+
 //var_dump($dadosRet);
 ?>
   <div class="mygrid-wrapper-div" style="overflow-y: scroll; height:200px; width: auto;">
