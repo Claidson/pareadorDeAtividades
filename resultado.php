@@ -59,6 +59,34 @@
     </style>
   
 
+
+                 <?php
+
+$bdcon = pg_connect("dbname=pareador");
+//conecta a um banco de dados chamado "pareador"
+
+$con_string = "host=localhost port=5432 dbname=pareador user=postgres password=postgres";
+if(!$dbcon = pg_connect($con_string)) die ("Erro ao conectar ao banco<br>".pg_last_error($dbcon));
+//coneta a um banco de dados chamado "cliente" na máquina "localhost" com um usuário e senha
+
+$result = pg_query($dbcon, "SELECT * FROM eventos");
+
+if (!$result) {
+  echo "Erro na consulta.<br>";
+  exit;
+}
+?>
+
+
+
+
+
+
+
+
+
+
+
    <script type="text/javascript" src=" https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>-
    <!--<script type="text/javascript" src="js/ol.js"></script>-->
     <script type="text/javascript" src="//code.jquery.com/jquery-2.1.1.min.js"></script>
@@ -213,7 +241,7 @@
                           <input class="form-control" type="text" name="atividade"  placeholder="Escolha sua atividade" readonly>
                           <input class="form-control" type="text" name="nome" placeholder="Nome">
                           <input class="form-control" type="text" name="local" placeholder="Local">
-                          <input class="form-control" type="datetime" name="data_evento" placeholder="Data">
+                          <input class="form-control" type="date" name="data_evento" placeholder="Data">
                           <label class="radio-inline"> 
                             <input type="radio" name="atividade" value="Truco"><span class="label label-success">Truco</span> 
                           </label> 
@@ -254,23 +282,7 @@
               <div id="properties" class="panel-collapse collapse in">
                 <div class="panel-body">
 
-
-                 <?php
-
-$bdcon = pg_connect("dbname=pareador");
-//conecta a um banco de dados chamado "pareador"
-
-$con_string = "host=localhost port=5432 dbname=pareador user=postgres password=postgres";
-if(!$dbcon = pg_connect($con_string)) die ("Erro ao conectar ao banco<br>".pg_last_error($dbcon));
-//coneta a um banco de dados chamado "cliente" na máquina "localhost" com um usuário e senha
-
-$result = pg_query($dbcon, "SELECT * FROM eventos");
-
-if (!$result) {
-  echo "Erro na consulta.<br>";
-  exit;
-}
-?>
+<!--***************************************                        -->
 
 <div class="container-fluid">
 
