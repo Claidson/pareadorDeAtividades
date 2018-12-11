@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-    <link rel="stylesheet" href="/css/ol.css" />
+
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" />
     <title>Pareador mapeado tabajara</title>
@@ -54,6 +54,7 @@
         border-radius: 4px;
         cursor: pointer;
       }
+
 
     </style>
   
@@ -125,6 +126,7 @@
         applyMargins();
       });
     </script>
+       
   </head>
   <body>
     <div class="container">
@@ -276,34 +278,40 @@ if (!$result) {
     <li class="list-group-item">
     
 <?php
-$amiguinhos = array();
-while ($row = pg_fetch_array($result)) {
+//$amiguinhos = array();
+while ($row = pg_fetch_row($result)) {
   // echo "Nome $row[0]  Atividade: $row[1] ";
   // echo "<br />\n";
   // $amiguinhos[] =  $row;
-  $dadosRet[] = array("nome"=> $row['nome'],
-  "atividade"=> $row['atividade'],
-  "local"=> $row['local'],);
+  $dadosRet[] = ["nome"=> $row[0],
+  "atividade"=> $row[1],
+  "local"=> $row[2]];
+ 
 }
-
+//var_dump($dadosRet);
 ?>
+  <div class="mygrid-wrapper-div" style="overflow-y: scroll; height:200px; width: auto;">
 
-<table border='1px'>
+  <table class="table">
+  <thead>
                     <tr>
-                        <td>Nome</td>
-                        <td>Evento</td>
-                        <td>Geo</td>
+                        <th>Nome</th>
+                        <th>Evento</th>
+                        <th>Geo</th>
                     </tr>
-                    
-                    <?php foreach ($array as $key) { ?>
+</thead>
+<tbody>
+                    <?php foreach ($dadosRet as $chave) { ?>
+                      
                     <tr>
-                        <td><?=$key['nome']?></td>
-                        <td><?=$key['atividade']?></td>
-                        <td><?=$key['local']?></td>
+                        <td><?=$chave['nome']?></td>
+                        <td><?=$chave['atividade']?></td>
+                        <td><?=$chave['local']?></td>
                     </tr>
+                    </tbody>
                     <?php } ?>                      
                 </table>
-
+                    </div>
 
 </li>
 </ul></div>
