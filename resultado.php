@@ -214,7 +214,6 @@ var vectorSource = new ol.source.Vector({});
         });
      var vetorLocaisString = "<?php echo $arrayDados;?>";
      var vetorLocais = vetorLocaisString.split("|");
-console.log(vetorLocais);
 function dados(item){
   var t = item.split(",");
   var lat = parseFloat(t[0]);
