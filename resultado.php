@@ -125,7 +125,7 @@ while ($row = pg_fetch_row($resultCoredenadas)) {
  foreach ($dadosCordenadas as $chave) { 
        $variavel[]=$chave['long'].",".$chave['lat'];
       }
-      var_dump($variavel);
+      // var_dump($variavel);
 while ($row = pg_fetch_row($result)) {
 
   $dadosRet[] = ["nome"=> $row[0],
@@ -209,7 +209,7 @@ var vectorSource = new ol.source.Vector({});
           view: new ol.View({
              center: ol.proj.fromLonLat([-50.322416,-27.810209]),
 
-            zoom: 16
+            zoom: 10
           })
         });
      var vetorLocaisString = "<?php echo $arrayDados;?>";
@@ -294,6 +294,7 @@ function dados(item){
       </nav>
       <div class="navbar-offset"></div>
       <div id="map">
+  
       </div>
       <div class="row main-row">
         <div class="col-sm-4 col-md-3 sidebar sidebar-left pull-left">
@@ -304,6 +305,8 @@ function dados(item){
                   <a data-toggle="collapse" href="#layers">
                     <i class="fa fa-list-alt"></i>
                     Clique no ponto do mapa desejado encontramos parceiros para o que você quer fazer agora
+                    
+
                   </a>
                   <span class="pull-right slide-submenu">
                     <i class="fa fa-chevron-left"></i>
@@ -312,40 +315,59 @@ function dados(item){
               </div>
               <div id="layers" class="panel-collapse collapse in">
                 <div class="panel-body list-group">
-                  
+                    <p id="gg">Clique no botão para receber sua localização em Latitude e Longitude:</p>
+                          <button class="btn btn-default" onclick="getLocation()">Localização</button>
+                          <script>
+                          var x=document.getElementById("gg");
+                          function getLocation()
+                            {
+                            if (navigator.geolocation)
+                              {
+                              navigator.geolocation.getCurrentPosition(showPosition);
+                              }
+                            else{x.innerHTML="O seu navegador não suporta Geolocalização.";}
+                            }
+                          function showPosition(position)
+                            {
+                          var preenche = document.getElementById('inputlocal');
+                          preenche.value= position.coords.longitude +
+                            ","+ position.coords.latitude;
+                          
+                            x.innerHTML="Latitude: " + position.coords.latitude +
+                            "<br>Longitude: " + position.coords.longitude; 
+                            }
+                          </script>
                     <form class="form-horizontal" method="POST" action="resultado.php">
                         <div class="form-group">
                           
                             <div class="container-fluid">
                             <div class="input-group mb-3">
+
+
+
+
+                              
                           <input class="form-control" type="text" name="atividade"  placeholder="Escolha sua atividade" readonly>
                           <input class="form-control" type="text" name="nome" placeholder="Nome">
-                          <input class="form-control" type="text" name="local" placeholder="Local">
+                          <input class="form-control" id="inputlocal" type="text" name="local" placeholder="Local">
+
+                          
+
+
                           <input class="form-control" type="date" name="data_evento" placeholder="Data">
                           <label class="radio-inline"> 
                             <input type="radio" name="atividade" value="Truco"><span class="label label-success">Truco</span> 
                           </label> 
                             
                           <label class="radio-inline"> 
-                            <input type=<?php
-
-  
-
-while ($row = pg_fetch_row($result)) {
-
-  $dadosRet[] = ["nome"=> $row[0],
-  "atividade"=> $row[1],
-  "local"=> $row[2]];
-
-}
-
-//var_dump($dadosRet);
-?>"radio" name="atividade" value="Cerveja"><span class="label label-warning">Cerveja</span> 
+                            <input type="radio" name="atividade" value="Cerveja"><span class="label label-warning">Cerveja</span> 
                           </label> 
                           
                           <label class="radio-inline"> 
                             <input type="radio" name="atividade" value="Duelo Mortal"><span class="label label-danger">Duelo Mortal</span> 
                           </label> 
+                        
+                          
                         </div>
 </div>
 
@@ -363,7 +385,22 @@ while ($row = pg_fetch_row($result)) {
                 </div>
               </div>
             </div>
+
             <div class="panel panel-default">
+            <?php
+
+  
+
+while ($row = pg_fetch_row($result)) {
+
+  $dadosRet[] = ["nome"=> $row[0],
+  "atividade"=> $row[1],
+  "local"=> $row[2]];
+
+}
+
+//var_dump($dadosRet);
+?>
               <div class="panel-heading">
                 <h4 class="panel-title">
                   <a data-toggle="collapse" href="#properties">

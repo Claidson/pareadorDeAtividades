@@ -133,7 +133,7 @@
           <!-- togle menu app -->
           <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-            <span class="sr-only">Tnavegação </span>
+            <span class="sr-only">Navegação </span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -205,7 +205,7 @@
               <div id="layers" class="panel-collapse collapse in">
                 <div class="panel-body list-group">
                     <p id="gg">Clique no botão para receber sua localização em Latitude e Longitude:</p>
-                          <button onclick="getLocation()">Clique Aqui</button>
+                          <button class="btn btn-default" onclick="getLocation()">Localização</button>
                           <script>
                           var x=document.getElementById("gg");
                           function getLocation()
@@ -219,8 +219,8 @@
                           function showPosition(position)
                             {
                           var preenche = document.getElementById('inputlocal');
-                          preenche.value= position.coords.latitude +
-                            ","+ position.coords.longitude;
+                          preenche.value= position.coords.longitude +
+                            ","+ position.coords.latitude;
                           
                             x.innerHTML="Latitude: " + position.coords.latitude +
                             "<br>Longitude: " + position.coords.longitude; 
