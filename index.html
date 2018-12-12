@@ -117,7 +117,7 @@
           ],
           view: new ol.View({
              center: ol.proj.fromLonLat([-50.322416,-27.810209]),
-            //center: [-100222.295949,-180074.3989],
+         
             zoom: 16
           })
         });
@@ -140,45 +140,45 @@
             </button>
             <a class="navbar-brand" href="index.html">Home </a>
           </div>
-          <!-- menu drop  -->
-          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-              <li class="active"><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">menu drop <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                  <li><a href="#">Alguma opção</a></li>
-                  <li><a href="#">Alguma opção</a></li>
-                  <li><a href="#">Alguma opção</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">Alguma outra opção</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">mais uma</a></li>
-                </ul>
-              </li>
-            </ul>
-            <form class="navbar-form navbar-left" role="search">
-              <div class="form-group">
-                <input type="text" class="form-control" placeholder="buscar">
-              </div>
-              <button type="submit" class="btn btn-default">Enviar</button>
-            </form>
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="#">Link</a></li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Menu drop <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                  <li><a href="#">Alguma opção</a></li>
-                  <li><a href="#">Alguma opção</a></li>
-                  <li><a href="#">Alguma opção</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">Alguma opção</a></li>
-                </ul>
-              </li>
-            </ul>
-            </div><!-- /.navbar-collapse -->
-            </div><!-- /.container-fluid -->
+   <!-- menu drop  -->
+   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Link</a></li>
+        <li><a href="#">Link</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">menu drop <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Alguma opção</a></li>
+            <li><a href="#">Alguma opção</a></li>
+            <li><a href="#">Alguma opção</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Alguma outra opção</a></li>
+            <li class="divider"></li>
+            <li><a href="#">mais uma</a></li>
+          </ul>
+        </li>
+      </ul>
+      <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="buscar">
+        </div>
+        <button type="submit" class="btn btn-default">Enviar</button>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Link</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Menu drop <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Alguma opção</a></li>
+            <li><a href="#">Alguma opção</a></li>
+            <li><a href="#">Alguma opção</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Alguma opção</a></li>
+          </ul>
+        </li>
+      </ul>
+      </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
           </nav>
         </div>
       </nav>
@@ -194,6 +194,8 @@
                   <a data-toggle="collapse" href="#layers">
                     <i class="fa fa-list-alt"></i>
                     Clique no ponto do mapa desejado encontramos parceiros para o que você quer fazer agora
+                    
+
                   </a>
                   <span class="pull-right slide-submenu">
                     <i class="fa fa-chevron-left"></i>
@@ -202,15 +204,45 @@
               </div>
               <div id="layers" class="panel-collapse collapse in">
                 <div class="panel-body list-group">
-                  
-                    <form class="form-horizontal" method="POST" action="cadastrar.php">
+                    <p id="gg">Clique no botão para receber sua localização em Latitude e Longitude:</p>
+                          <button onclick="getLocation()">Clique Aqui</button>
+                          <script>
+                          var x=document.getElementById("gg");
+                          function getLocation()
+                            {
+                            if (navigator.geolocation)
+                              {
+                              navigator.geolocation.getCurrentPosition(showPosition);
+                              }
+                            else{x.innerHTML="O seu navegador não suporta Geolocalização.";}
+                            }
+                          function showPosition(position)
+                            {
+                          var preenche = document.getElementById('inputlocal');
+                          preenche.value= position.coords.latitude +
+                            ","+ position.coords.longitude;
+                          
+                            x.innerHTML="Latitude: " + position.coords.latitude +
+                            "<br>Longitude: " + position.coords.longitude; 
+                            }
+                          </script>
+                    <form class="form-horizontal" method="POST" action="resultado.php">
                         <div class="form-group">
                           
                             <div class="container-fluid">
                             <div class="input-group mb-3">
+
+
+
+
+                              
                           <input class="form-control" type="text" name="atividade"  placeholder="Escolha sua atividade" readonly>
                           <input class="form-control" type="text" name="nome" placeholder="Nome">
-                          <input class="form-control" type="text" name="local" placeholder="Local">
+                          <input class="form-control" id="inputlocal" type="text" name="local" placeholder="Local">
+
+                          
+
+
                           <input class="form-control" type="date" name="data_evento" placeholder="Data">
                           <label class="radio-inline"> 
                             <input type="radio" name="atividade" value="Truco"><span class="label label-success">Truco</span> 
@@ -223,6 +255,8 @@
                           <label class="radio-inline"> 
                             <input type="radio" name="atividade" value="Duelo Mortal"><span class="label label-danger">Duelo Mortal</span> 
                           </label> 
+                        
+                          
                         </div>
 </div>
 

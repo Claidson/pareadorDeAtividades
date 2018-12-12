@@ -58,7 +58,38 @@
 
     </style>
   
+<!-- parte de cadastro -->
 
+
+<?php
+
+$nome = $_POST['nome'];
+  $atividade = $_POST['atividade'];
+  $local = $_POST['local'];
+  $data_evento = $_POST['data_evento'];
+  $coordenada = "-50.337571,-27.805085";
+  //Criar a conexao
+  $where =  $atividade;
+  $bdcon = pg_connect("dbname=pareador");
+//conecta a um banco de dados chamado "pareador"
+
+  $con_string = "host=localhost port=5432 dbname=pareador user=postgres password=postgres";
+  if(!$dbcon = pg_connect($con_string)) die ("Erro ao conectar ao banco<br>".pg_last_error($dbcon));
+  $query = "INSERT INTO eventos (nome,atividade, local, data_evento) VALUES ('$nome','$atividade',ST_SetSRID(st_makepoint($local),4326), '$data_evento')";
+  $insert = pg_query($dbcon, $query);
+  
+//voltar
+//  $var = "<script>javascript:history.back(-2)</script>";
+//    echo $var;
+
+
+// header('Location: resultado.php?atividade='.$where); 
+?>
+
+
+
+
+<!-- parte de resultados -->
 
                  <?php
 
@@ -68,16 +99,43 @@ $bdcon = pg_connect("dbname=pareador");
 $con_string = "host=localhost port=5432 dbname=pareador user=postgres password=postgres";
 if(!$dbcon = pg_connect($con_string)) die ("Erro ao conectar ao banco<br>".pg_last_error($dbcon));
 //coneta a um banco de dados chamado "cliente" na máquina "localhost" com um usuário e senha
-$recebido = $_GET['atividade']; //pega a variavel por get  na url header
-$result = pg_query($dbcon, "SELECT * FROM eventos WHERE atividade = '$recebido'");
+$recebido = $atividade; //pega a variavel por get
+// $result = pg_query($dbcon, "SELECT * FROM eventos WHERE atividade = '$recebido'");
+// $result = pg_query($dbcon, "SELECT * from eventos WHERE ST_Distance(ST_Transform(eventos.local,900913),ST_Transform(ST_SetSRID(ST_GeometryFromText('POINT('$cordenada')'),4326),900913)) < 5000 AND eventos.atividade = '$recebido'");
+$result = pg_query($dbcon, "SELECT * from eventos WHERE ST_Distance(ST_Transform(eventos.local,900913),ST_Transform(ST_SetSRID(ST_GeometryFromText('POINT(-50.322416 -27.810209)'),4326),900913)) < 5000 AND eventos.atividade = '$recebido'");
+$resultCoredenadas = pg_query($dbcon, "SELECT ST_X(local),ST_Y(local) from eventos WHERE ST_Distance(ST_Transform(eventos.local,900913),ST_Transform(ST_SetSRID(ST_GeometryFromText('POINT(-50.322416 -27.810209)'),4326),900913)) < 5000 AND eventos.atividade = '$recebido'");
 
 if (!$result) {
+  echo "pau  $result";
   echo "Erro na consulta.<br>";
   exit;
 }
 ?>
 
+<?php
 
+while ($row = pg_fetch_row($resultCoredenadas)) {
+
+  // $dadosCordenadas[] = ["local"=> sprintf("%.8",$row[1]).sprintf("%.8",$row[0])];
+  $dadosCordenadas[] = ["long"=> $row[0], "lat"=> $row[1]];
+}
+//var_dump($dadosCordenadas);
+
+
+ foreach ($dadosCordenadas as $chave) { 
+       $variavel[]=$chave['long'].",".$chave['lat'];
+      }
+      var_dump($variavel);
+while ($row = pg_fetch_row($result)) {
+
+  $dadosRet[] = ["nome"=> $row[0],
+  "atividade"=> $row[1],
+  "local"=> $row[2]];
+ 
+}
+$arrayDados = implode("|", $variavel);
+// var_dump($dadosRet);
+?>
 
 
 
@@ -136,23 +194,46 @@ if (!$result) {
         });
 
         $(window).on("resize", applyMargins);
-
+        //variavel
+var vectorSource = new ol.source.Vector({});
         var map = new ol.Map({
           target: "map",
           layers: [
             new ol.layer.Tile({
               source: new ol.source.OSM()
+            }),
+            new ol.layer.Vector({
+              source: vectorSource
             })
           ],
           view: new ol.View({
              center: ol.proj.fromLonLat([-50.322416,-27.810209]),
-            //center: [-100222.295949,-180074.3989],
+
             zoom: 16
           })
         });
+     var vetorLocaisString = "<?php echo $arrayDados;?>";
+     var vetorLocais = vetorLocaisString.split("|");
+console.log(vetorLocais);
+function dados(item){
+  var t = item.split(",");
+  var lat = parseFloat(t[0]);
+  var lon = parseFloat(t[1]);
+  vectorSource.addFeature(new ol.Feature({
+    name:"q",
+    geometry: new ol.geom.Point(new ol.proj.transform([lat,lon], 'EPSG:4326', 'EPSG:3857'))
+  }));
+}
+ vetorLocais.forEach(dados);
         applyInitialUIState();
         applyMargins();
       });
+
+
+
+
+
+
     </script>
        
   </head>
@@ -163,7 +244,7 @@ if (!$result) {
           <!-- togle menu app -->
           <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-            <span class="sr-only">Tnavegação </span>
+            <span class="sr-only">navegação </span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -233,7 +314,7 @@ if (!$result) {
               <div id="layers" class="panel-collapse collapse in">
                 <div class="panel-body list-group">
                   
-                    <form class="form-horizontal" method="POST" action="cadastrar.php">
+                    <form class="form-horizontal" method="POST" action="resultado.php">
                         <div class="form-group">
                           
                             <div class="container-fluid">
@@ -247,7 +328,20 @@ if (!$result) {
                           </label> 
                             
                           <label class="radio-inline"> 
-                            <input type="radio" name="atividade" value="Cerveja"><span class="label label-warning">Cerveja</span> 
+                            <input type=<?php
+
+  
+
+while ($row = pg_fetch_row($result)) {
+
+  $dadosRet[] = ["nome"=> $row[0],
+  "atividade"=> $row[1],
+  "local"=> $row[2]];
+
+}
+
+//var_dump($dadosRet);
+?>"radio" name="atividade" value="Cerveja"><span class="label label-warning">Cerveja</span> 
                           </label> 
                           
                           <label class="radio-inline"> 
@@ -289,22 +383,7 @@ if (!$result) {
   <ul class="list-group">
     <li class="list-group-item">
     
-<?php
 
-  
-
-while ($row = pg_fetch_row($result)) {
-  // echo "Nome $row[0]  Atividade: $row[1] ";
-  // echo "<br />\n";
-  // $amiguinhos[] =  $row;
-  $dadosRet[] = ["nome"=> $row[0],
-  "atividade"=> $row[1],
-  "local"=> $row[2]];
-
-}
-
-//var_dump($dadosRet);
-?>
   <div class="mygrid-wrapper-div" style="overflow-y: scroll; height:200px; width: auto;">
 
   <table class="table">
