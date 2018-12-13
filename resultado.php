@@ -77,7 +77,9 @@ $nome = $_POST['nome'];
   if(!$dbcon = pg_connect($con_string)) die ("Erro ao conectar ao banco<br>".pg_last_error($dbcon));
   $query = "INSERT INTO eventos (nome,atividade, local, data_evento) VALUES ('$nome','$atividade',ST_SetSRID(st_makepoint($local),4326), '$data_evento')";
   $insert = pg_query($dbcon, $query);
+  $localString = str_replace(',',' ', $local);
   
+ 
 //voltar
 //  $var = "<script>javascript:history.back(-2)</script>";
 //    echo $var;
@@ -103,7 +105,7 @@ $recebido = $atividade; //pega a variavel por get
 // $result = pg_query($dbcon, "SELECT * FROM eventos WHERE atividade = '$recebido'");
 // $result = pg_query($dbcon, "SELECT * from eventos WHERE ST_Distance(ST_Transform(eventos.local,900913),ST_Transform(ST_SetSRID(ST_GeometryFromText('POINT('$cordenada')'),4326),900913)) < 5000 AND eventos.atividade = '$recebido'");
 $result = pg_query($dbcon, "SELECT * from eventos WHERE ST_Distance(ST_Transform(eventos.local,900913),ST_Transform(ST_SetSRID(ST_GeometryFromText('POINT(-50.322416 -27.810209)'),4326),900913)) < 5000 AND eventos.atividade = '$recebido'");
-$resultCoredenadas = pg_query($dbcon, "SELECT ST_X(local),ST_Y(local) from eventos WHERE ST_Distance(ST_Transform(eventos.local,900913),ST_Transform(ST_SetSRID(ST_GeometryFromText('POINT(-50.322416 -27.810209)'),4326),900913)) < 5000 AND eventos.atividade = '$recebido'");
+$resultCoredenadas = pg_query($dbcon, "SELECT ST_X(local),ST_Y(local) from eventos WHERE ST_Distance(ST_Transform(eventos.local,900913),ST_Transform(ST_SetSRID(ST_GeometryFromText('POINT($localString)'),4326),900913)) < 5000 AND eventos.atividade = '$recebido'");
 
 if (!$result) {
   echo "pau  $result";
@@ -205,6 +207,10 @@ $arrayDados = implode("|", $variavel);
     src: 'data/icon.png'
   }))
 });
+var centro = "<?php echo $local;?>";
+        var centroLonLat = centro.split(",");
+        var centroLon = parseFloat(centroLonLat[0]);
+        var centroLat = parseFloat(centroLonLat[1]);
 var vectorSource = new ol.source.Vector({});
         var map = new ol.Map({
           target: "map",
@@ -218,11 +224,12 @@ var vectorSource = new ol.source.Vector({});
             })
           ],
           view: new ol.View({
-             center: ol.proj.fromLonLat([-50.322416,-27.810209]),
+             center: ol.proj.fromLonLat([centroLon,centroLat]),
 
             zoom: 14
           })
         });
+        
      var vetorLocaisString = "<?php echo $arrayDados;?>";
      var vetorLocais = vetorLocaisString.split("|");
 function dados(item){
