@@ -195,6 +195,16 @@ $arrayDados = implode("|", $variavel);
 
         $(window).on("resize", applyMargins);
         //variavel
+
+        var iconStyle = new ol.style.Style({
+  image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+    anchor: [0.5, 46],
+    anchorXUnits: 'fraction',
+    anchorYUnits: 'pixels',
+    opacity: 0.75,
+    src: 'data/icon.png'
+  }))
+});
 var vectorSource = new ol.source.Vector({});
         var map = new ol.Map({
           target: "map",
@@ -203,13 +213,14 @@ var vectorSource = new ol.source.Vector({});
               source: new ol.source.OSM()
             }),
             new ol.layer.Vector({
-              source: vectorSource
+              source: vectorSource,
+              style: iconStyle
             })
           ],
           view: new ol.View({
              center: ol.proj.fromLonLat([-50.322416,-27.810209]),
 
-            zoom: 10
+            zoom: 14
           })
         });
      var vetorLocaisString = "<?php echo $arrayDados;?>";
